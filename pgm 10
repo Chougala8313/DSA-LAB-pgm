@@ -1,0 +1,101 @@
+#include <iostream>
+using namespace std;
+
+// Define the structure for a node in the Binary Search Tree
+struct Node {
+    int data;      // Data of the node
+    Node* left;    // Pointer to the left child
+    Node* right;   // Pointer to the right child
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+
+// Class to represent the Binary Search Tree (BST)
+class BST {
+private:
+    Node* root;  // Root of the BST
+
+public:
+    // Constructor to initialize the tree
+    BST() {
+        root = nullptr;
+    }
+
+    // Function to insert a node into the BST
+    void insert(int value) {
+        root = insertRec(root, value);
+    }
+
+    // Function to display the tree in-order (sorted order)
+    void inorder() {
+        inorderRec(root);
+        cout << endl;
+    }
+
+private:
+    // Recursive function to insert a node in the tree
+    Node* insertRec(Node* node, int value) {
+        // If the tree is empty, return a new node
+        if (node == nullptr) {
+            return new Node(value);
+        }
+
+        // Otherwise, recur down the tree
+        if (value < node->data) {
+            node->left = insertRec(node->left, value);
+        } else if (value > node->data) {
+            node->right = insertRec(node->right, value);
+        }
+
+        // Return the (unchanged) node pointer
+        return node;
+    }
+
+    // Recursive function to perform inorder traversal (left, root, right)
+    void inorderRec(Node* node) {
+        if (node != nullptr) {
+            inorderRec(node->left);     // Visit left subtree
+            cout << node->data << " ";  // Visit node
+            inorderRec(node->right);    // Visit right subtree
+        }
+    }
+};
+
+// Main function to interact with the user
+int main() {
+    BST tree;  // Create a BST object
+
+    int choice, value;
+    while (true) {
+        cout << "\nBinary Search Tree Operations:\n";
+        cout << "1. Insert an element\n";
+        cout << "2. Display tree (Inorder)\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to insert: ";
+                cin >> value;
+                tree.insert(value);
+                cout << "Value inserted into the BST.\n";
+                break;
+            case 2:
+                cout << "Inorder traversal of the tree: ";
+                tree.inorder();
+                break;
+            case 3:
+                cout << "Exiting program.\n";
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
+}
