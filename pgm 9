@@ -1,0 +1,129 @@
+#include <iostream>
+using namespace std;
+
+// Define the structure for a node in the linked list
+struct Node {
+    int data;        // Data of the node
+    Node* next;      // Pointer to the next node
+
+    Node(int val) {  // Constructor to initialize a node
+        data = val;
+        next = nullptr;
+    }
+};
+
+// Class for Stack using Singly Linked List
+class Stack {
+private:
+    Node* top;  // Pointer to the top of the stack
+
+public:
+    // Constructor to initialize the stack
+    Stack() {
+        top = nullptr;
+    }
+
+    // Destructor to clean up the linked list
+    ~Stack() {
+        while (!isEmpty()) {
+            pop();
+        }
+    }
+
+    // Function to check if the stack is empty
+    bool isEmpty() {
+        return top == nullptr;
+    }
+
+    // Function to push an element onto the stack
+    void push(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = top;
+        top = newNode;
+        cout << "Pushed " << value << " onto the stack." << endl;
+    }
+
+    // Function to pop an element from the stack
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack is empty! Cannot pop." << endl;
+            return -1; // Indicates the stack is empty
+        }
+        int poppedValue = top->data;
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+        return poppedValue;
+    }
+
+    // Function to peek at the top element of the stack
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return -1; // Indicates the stack is empty
+        }
+        return top->data;
+    }
+
+    // Function to display the elements of the stack
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        Node* current = top;
+        cout << "Stack elements: ";
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Stack stack;
+
+    // Menu-driven interface
+    int choice, value;
+    while (true) {
+        cout << "\nStack Operations:\n";
+        cout << "1. Push\n";
+        cout << "2. Pop\n";
+        cout << "3. Peek\n";
+        cout << "4. Display\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> value;
+                stack.push(value);
+                break;
+            case 2:
+                value = stack.pop();
+                if (value != -1) {
+                    cout << "Popped value: " << value << endl;
+                }
+                break;
+            case 3:
+                value = stack.peek();
+                if (value != -1) {
+                    cout << "Top value: " << value << endl;
+                }
+                break;
+            case 4:
+                stack.display();
+                break;
+            case 5:
+                cout << "Exiting program.\n";
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
+}
