@@ -1,0 +1,132 @@
+#include <iostream>
+using namespace std;
+
+// Class for Sack (Bag) ADT
+class Sack {
+private:
+    int* items;      // Array to store the items in the sack
+    int capacity;    // Maximum capacity of the sack
+    int size;        // Current number of items in the sack
+
+public:
+    // Constructor to initialize the sack
+    Sack(int capacity) {
+        this->capacity = capacity;
+        size = 0;
+        items = new int[capacity];
+    }
+
+    // Destructor to clean up dynamically allocated memory
+    ~Sack() {
+        delete[] items;
+    }
+
+    // Function to add an item to the sack
+    void addItem(int item) {
+        if (size < capacity) {
+            items[size] = item;
+            size++;
+            cout << "Item " << item << " added to the sack.\n";
+        } else {
+            cout << "Sack is full. Cannot add item " << item << ".\n";
+        }
+    }
+
+    // Function to remove an item from the sack (first occurrence)
+    bool removeItem(int item) {
+        for (int i = 0; i < size; i++) {
+            if (items[i] == item) {
+                // Shift elements to the left to remove the item
+                for (int j = i; j < size - 1; j++) {
+                    items[j] = items[j + 1];
+                }
+                size--;
+                cout << "Item " << item << " removed from the sack.\n";
+                return true;
+            }
+        }
+        cout << "Item " << item << " not found in the sack.\n";
+        return false;
+    }
+
+    // Function to check if an item is in the sack
+    bool containsItem(int item) {
+        for (int i = 0; i < size; i++) {
+            if (items[i] == item) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Function to get the current size of the sack
+    int getSize() {
+        return size;
+    }
+
+    // Function to print all items in the sack
+    void printSack() {
+        if (size == 0) {
+            cout << "The sack is empty.\n";
+        } else {
+            cout << "Items in the sack: ";
+            for (int i = 0; i < size; i++) {
+                cout << items[i] << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    int capacity;
+    cout << "Enter the capacity of the sack: ";
+    cin >> capacity;
+
+    Sack sack(capacity);
+
+    // Menu-driven interface
+    int choice, item;
+    while (true) {
+        cout << "\nSack Operations:\n";
+        cout << "1. Add Item\n";
+        cout << "2. Remove Item\n";
+        cout << "3. Check if Item Exists\n";
+        cout << "4. Print Sack\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the item to add: ";
+                cin >> item;
+                sack.addItem(item);
+                break;
+            case 2:
+                cout << "Enter the item to remove: ";
+                cin >> item;
+                sack.removeItem(item);
+                break;
+            case 3:
+                cout << "Enter the item to check: ";
+                cin >> item;
+                if (sack.containsItem(item)) {
+                    cout << "Item " << item << " exists in the sack.\n";
+                } else {
+                    cout << "Item " << item << " does not exist in the sack.\n";
+                }
+                break;
+            case 4:
+                sack.printSack();
+                break;
+            case 5:
+                cout << "Exiting program.\n";
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
+}
