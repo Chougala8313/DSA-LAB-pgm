@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+
+// Function to perform Bubble Sort
+void bubbleSort(int arr[], int n) {
+    // Outer loop for number of passes
+    for (int i = 0; i < n - 1; i++) {
+        // Inner loop for comparing adjacent elements
+        for (int j = 0; j < n - i - 1; j++) {
+            // Swap if the element found is greater than the next element
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+// Function to print the array
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+
+    // Ask the user for the size of the array
+    cout << "Enter the number of elements: ";
+    cin >> n;
+
+    int arr[n];
+
+    // Ask the user to enter array elements
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    // Perform Bubble Sort
+    bubbleSort(arr, n);
+
+    // Print the sorted array
+    cout << "Sorted array: ";
+    printArray(arr, n);
+
+    return 0;
+}
